@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .container {
+        @apply m-auto p-2.5;
+    }
+    .btn {
+        @apply inline-flex items-center rounded-md border border-transparent px-4 focus:outline-none py-2 text-sm font-semibold tracking-widest transition duration-150 ease-in-out;
+    }
+    .btn-primary {
+        @apply bg-gray-800 text-white  hover:bg-gray-700 focus:bg-gray-700  focus:ring-indigo-500 focus:ring-offset-2 active:bg-gray-900 dark:bg-gray-200 dark:text-gray-800 dark:hover:bg-white dark:focus:bg-white dark:focus:ring-offset-gray-800 dark:active:bg-gray-300;
+    }
+    .btn-danger {
+        @apply bg-red-600 text-white hover:bg-red-500  focus:ring-2 focus:ring-red-500 focus:ring-offset-2 active:bg-red-700 dark:focus:ring-offset-gray-800;
+    }
+    [v-cloak] {
+        @apply hidden;
+    }
+}
