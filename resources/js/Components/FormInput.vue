@@ -12,6 +12,7 @@
         type: String,
         error: String,
         name: String,
+        disabled: false
     });
 
 </script>
@@ -19,7 +20,7 @@
 <template>
     <div class="mb-1">
         <InputLabel :value="name" />
-        <TextInput :type="type" :name="name" v-model="model" :invalid="error" />
+        <TextInput :type="type" :name="name" v-model="model" :invalid="error" :disabled="disabled" />
         <InputError :message="error" />
     </div>
 </template>

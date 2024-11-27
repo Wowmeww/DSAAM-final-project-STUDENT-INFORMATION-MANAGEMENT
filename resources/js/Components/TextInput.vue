@@ -7,13 +7,14 @@
     defineProps({
         type: 'text',
         name: String,
-        invalid: false
+        invalid: false,
+        disabled: false
     });
 
 </script>
 
 <template>
-    <input :id="name" :type="type" v-model="model" class="form-input" :aria-invalid="invalid" />
+    <input :id="name" :type="type" v-model="model" class="form-input" :aria-invalid="invalid" :disabled="disabled" />
 </template>
 
 <style scoped lang="postcss">

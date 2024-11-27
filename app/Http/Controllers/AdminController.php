@@ -41,6 +41,30 @@ class AdminController extends Controller
             'courses' => $courses
         ]);
     }
+    public function registerStudent(Request $request)
+    {
+        // dd($request->all());
+        $studentCredentials = $request->validate([
+            "first_name" => ['required', 'max:244',],
+            "last_name" => ['required', 'max:244',],
+            "middle_name" => ['required', 'max:244',],
+            "sex" => ['required', 'max:244',],
+            "birth_date" => ['required', 'date', 'max:244',],
+            "course" => ['required', 'max:244',],
+            "year" => ['required', 'max:244', 'numeric', 'min:1'],
+            "block" => ['required', 'max:244',],
+        ]);
+        $userCredentials = $request->validate([
+            "email" => ['required', 'max:244', 'email', 'lowercase'],
+            "password" => ['required', 'max:244',]
+        ]);
+        $userCredentials['access_type'] = 'student';
+
+        $user = User::create($userCredentials);
+        $user->owner()->create($studentCredentials);
+
+        return to_route('admin.students')->with('message', 'New Student Registered');
+    }
     public function teachers()
     {
         return Inertia::render('Admin/Teachers');

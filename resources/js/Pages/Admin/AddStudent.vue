@@ -5,7 +5,7 @@
     import FormButton from '@/Components/FormButton.vue';
     import DangerButton from '@/Components/DangerButton.vue';
     import { useForm } from '@inertiajs/vue3';
-    import { ref, watch } from 'vue';
+    import { watch } from 'vue';
 
     defineProps({
         courses: Object
@@ -20,19 +20,19 @@
         course: null,
         year: null,
         block: null,
-        email: null
+        email: null,
+        password: Math.floor(Math.random() * 99999) + 10000
     });
 
     const submit = () => {
-        console.log(form);
+        form.post(route('admin.add-student'));
     }
-    const rand = ref(Math.floor(Math.random() * 99999 + 1000));
     watch(form, () => {
         let f = form.first_name ? form.first_name[0] : '';
         let m = form.middle_name ? form.middle_name[0] : '';
         let l = form.last_name ?? '';
 
-        let email = `${f}${m}${l}${rand.value}@edu.ph`.toLocaleLowerCase()
+        let email = `${f}${m}${l}${form.password}@edu.ph`.toLocaleLowerCase()
 
         form.email = email;
     });
@@ -68,7 +68,14 @@
 
                     <FormInput :error="form.errors.year" name="Year" v-model="form.year" />
                     <FormInput :error="form.errors.block" name="Block" v-model="form.block" />
-                    <FormInput :error="form.errors.email" name="Email" type="email" v-model="form.email" />
+                    <div @click="form.password = Math.floor(Math.random() * 99999) + 10000"
+                        class="flex items-center relative">
+                        <div class="flex-1">
+                            <FormInput :error="form.errors.email" name="Email" type="email" v-model="form.email"
+                                disabled />
+                        </div>
+                        <i class="bi-dice-5 absolute cursor-pointer right-3 top-[53%]" :class="{'top-[41%]': form.errors.email }" > </i>
+                    </div>
                 </div>
                 <div class="my-4 md:flex md:justify-center gap-4 gap-x-6 grid ">
                     <div class="inline-grid md:w-3/12">

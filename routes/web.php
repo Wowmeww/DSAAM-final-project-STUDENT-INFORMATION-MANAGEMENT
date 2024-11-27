@@ -28,6 +28,7 @@ Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/students', [AdminController::class, 'students'])->name('admin.students');
     Route::get('/admin/add-student', [AdminController::class, 'addStudent'])->name('admin.add-student');
+    Route::post('/admin/add-student', [AdminController::class, 'registerStudent']);
     Route::get('/admin/teachers', [AdminController::class, 'teachers'])->name('admin.teachers');
     Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
     Route::get('/admin/subjects', [AdminController::class, 'subjects'])->name('admin.subjects');
