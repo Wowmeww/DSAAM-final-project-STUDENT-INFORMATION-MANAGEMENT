@@ -7,6 +7,7 @@
     });
 </script>
 <template>
+    <Head title="Student Information Management System" />
     <header class="bg-white dark:bg-gray-900 flex">
         <div class="container px-6 py-16 mx-auto">
             <div class="items-center lg:flex">

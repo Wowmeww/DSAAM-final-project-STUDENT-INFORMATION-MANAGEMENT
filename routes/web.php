@@ -1,19 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProfileController;
+
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherController;
 use App\Models\User;
-use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Hero');
-});
+use Illuminate\Support\Facades\Route;
+
+
 // Route::get('/dashboard', function (Request $request) {
 //     if($request->user_type == 'admin') {
 //         return to_route('admin.dashboard');
@@ -26,10 +21,15 @@ Route::get('/', function () {
 // ADMIN
 Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/admin/students', [AdminController::class, 'students'])->name('admin.students');
-    Route::get('/admin/add-student', [AdminController::class, 'addStudent'])->name('admin.add-student');
-    Route::post('/admin/add-student', [AdminController::class, 'registerStudent']);
-    Route::get('/admin/teachers', [AdminController::class, 'teachers'])->name('admin.teachers');
+
+    Route::get('/students', [StudentController::class, 'index'])->name('student.index');
+    Route::get('/student/create', [StudentController::class, 'create'])->name('student.create');
+    Route::post('/student/store', [StudentController::class, 'store'])->name('student.store');
+
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teacher.index');
+    Route::get('/teacher/create', [TeacherController::class, 'create'])->name('teacher.create');
+    Route::post('/teacher/store', [TeacherController::class, 'store'])->name('teacher.store');
+
     Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
     Route::get('/admin/subjects', [AdminController::class, 'subjects'])->name('admin.subjects');
 

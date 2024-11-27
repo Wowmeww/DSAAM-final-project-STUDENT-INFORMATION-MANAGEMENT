@@ -25,7 +25,7 @@
     });
 
     const submit = () => {
-        form.post(route('admin.add-student'));
+        form.post(route('student.store'));
     }
     watch(form, () => {
         let f = form.first_name ? form.first_name[0] : '';
@@ -74,7 +74,8 @@
                             <FormInput :error="form.errors.email" name="Email" type="email" v-model="form.email"
                                 disabled />
                         </div>
-                        <i class="bi-dice-5 absolute cursor-pointer right-3 top-[53%]" :class="{'top-[41%]': form.errors.email }" > </i>
+                        <i class="bi-dice-5 absolute cursor-pointer right-3 top-[53%]"
+                            :class="{ 'top-[41%]': form.errors.email }"> </i>
                     </div>
                 </div>
                 <div class="my-4 md:flex md:justify-center gap-4 gap-x-6 grid ">

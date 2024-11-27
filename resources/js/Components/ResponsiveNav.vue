@@ -2,8 +2,6 @@
     import { usePage } from '@inertiajs/vue3';
     import { ref } from 'vue';
     import NavLink from './NavLink.vue';
-    import LogoutModal from './LogoutModal.vue';
-
 
     const user = usePage().props.auth.user;
     const isOpen = ref(false);
@@ -48,9 +46,9 @@
                     <div v-if="usersAccess == 'admin'" class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
                         <NavLink :href="route('admin.dashboard')" label="Dashboard"
                             :active="$page.component == 'Admin/Dashboard'" />
-                        <NavLink :href="route('admin.students')" label="Students"
+                        <NavLink :href="route('student.index')" label="Students"
                             :active="$page.component == 'Admin/Students'" />
-                        <NavLink :href="route('admin.teachers')" label="Teachers"
+                        <NavLink :href="route('teacher.index')" label="Teachers"
                             :active="$page.component == 'Admin/Teachers'" />
                         <NavLink :href="route('admin.courses')" label="Courses"
                             :active="$page.component == 'Admin/Courses'" />
