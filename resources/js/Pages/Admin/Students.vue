@@ -29,7 +29,7 @@
 <template>
     <section class="container">
         <PageHeading>Students</PageHeading>
-        <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="sm:flex sm:items-center sm:justify-between space-y-2">
             <div class="block md:flex md:items-center md:gap-6">
                 <TextInput type="search" v-model="search" class="min-w-96" placeholder="Search" />
             </div>
@@ -63,6 +63,9 @@
                     <th>
                         Block
                     </th>
+                    <th>
+                        Email
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -81,6 +84,9 @@
                     </td>
                     <td>
                         {{ student.block }}
+                    </td>
+                    <td>
+                        {{ student.user.email }}
                     </td>
                 </tr>
             </tbody>

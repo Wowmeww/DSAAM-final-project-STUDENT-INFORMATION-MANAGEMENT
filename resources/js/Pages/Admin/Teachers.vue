@@ -28,7 +28,7 @@
     <Head title="Teachers" />
     <div class="container">
         <PageHeading>Teachers</PageHeading>
-        <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="sm:flex sm:items-center sm:justify-between space-y-2">
             <div class="block md:flex md:items-center md:gap-6">
                 <TextInput type="search" v-model="search" class="min-w-96" placeholder="Search" />
             </div>
@@ -51,7 +51,7 @@
                         Name
                     </th>
                     <th>
-                        Subject/s
+                        Email
                     </th>
                 </tr>
             </thead>
@@ -64,7 +64,7 @@
                         {{ `${teacher.last_name} ${teacher.first_name} ${teacher.middle_name[0]}.` }}
                     </td>
                     <td>
-                        Subs
+                        {{ teacher.user.email }}
                     </td>
                 </tr>
             </tbody>

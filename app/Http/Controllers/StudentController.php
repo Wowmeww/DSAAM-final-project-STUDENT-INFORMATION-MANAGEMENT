@@ -24,7 +24,8 @@ class StudentController extends Controller
                 ->orWhere('last_name', 'like', "%{$q}%")
                 ->orWhere('first_name', 'like', "%{$q}%")
                 ->orWhere('year', 'like', "%{$q}%")
-                ->orWhere('course', 'like', "%{$q}%");
+                ->orWhere('course', 'like', "%{$q}%")
+                ->orWhere('id', 'like', "%{$q}%");
         }
 
         return Inertia::render('Admin/Students', [
@@ -65,7 +66,7 @@ class StudentController extends Controller
         $user = User::create($userCredentials);
         $user->owner()->create($studentCredentials);
 
-        return to_route('admin.students')->with('message', 'New Student Registered');
+        return to_route('student.index')->with('message', 'New Student Registered');
     }
 
     public function grades()

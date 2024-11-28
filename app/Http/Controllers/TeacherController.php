@@ -6,6 +6,8 @@ use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 
 class TeacherController extends Controller
@@ -22,14 +24,20 @@ class TeacherController extends Controller
 
         if ($q) {
             $teachers->where('last_name', 'like', "%{$q}%")
-                ->orWhere('first_name', 'like', "%{$q}%");
+                ->orWhere('first_name', 'like', "%{$q}%")
+                ->orWhere('id', 'like', "%{$q}%");
         }
 
-        $teachers->simplePaginate();
+        $teachers = $teachers->latest()->simplePaginate(20);
+
+        foreach ($teachers as $i => $teacher) {
+            // dump( $teacher->subjects);
+            $teacher->subs = $teacher->teachers;
+        }
 
         // $teachers = Teacher::with('user')->latest()->simplePaginate(20);
         return Inertia::render('Admin/Teachers', [
-            'teachers' => $teachers->latest()->simplePaginate()->withQueryString(),
+            'teachers' => $teachers,
             'query' => $q
         ]);
     }
@@ -67,10 +75,7 @@ class TeacherController extends Controller
             $teacher->addSubject($v);
         }
 
-
         return to_route('teacher.index')->with('message', 'New Teacher Registered.');
-
-
     }
     public function enrollStudents()
     {

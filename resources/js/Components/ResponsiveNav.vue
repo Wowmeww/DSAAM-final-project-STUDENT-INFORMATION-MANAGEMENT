@@ -50,9 +50,9 @@
                             :active="$page.component == 'Admin/Students'" />
                         <NavLink :href="route('teacher.index')" label="Teachers"
                             :active="$page.component == 'Admin/Teachers'" />
-                        <NavLink :href="route('admin.courses')" label="Courses"
+                        <NavLink :href="route('course.index')" label="Courses"
                             :active="$page.component == 'Admin/Courses'" />
-                        <NavLink :href="route('admin.subjects')" label="Subjects"
+                        <NavLink :href="route('subject.index')" label="Subjects"
                             :active="$page.component == 'Admin/Subjects'" />
                     </div>
 

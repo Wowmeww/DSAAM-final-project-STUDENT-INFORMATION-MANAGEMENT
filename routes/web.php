@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\AdminController;
 
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Models\Course;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Route;
@@ -23,15 +26,20 @@ Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/students', [StudentController::class, 'index'])->name('student.index');
-    Route::get('/student/create', [StudentController::class, 'create'])->name('student.create');
-    Route::post('/student/store', [StudentController::class, 'store'])->name('student.store');
+    Route::get('/students/create', [StudentController::class, 'create'])->name('student.create');
+    Route::post('/students', [StudentController::class, 'store'])->name('student.store');
 
     Route::get('/teachers', [TeacherController::class, 'index'])->name('teacher.index');
-    Route::get('/teacher/create', [TeacherController::class, 'create'])->name('teacher.create');
-    Route::post('/teacher/store', [TeacherController::class, 'store'])->name('teacher.store');
+    Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teacher.create');
+    Route::post('/teachers', [TeacherController::class, 'store'])->name('teacher.store');
 
-    Route::get('/admin/courses', [AdminController::class, 'courses'])->name('admin.courses');
-    Route::get('/admin/subjects', [AdminController::class, 'subjects'])->name('admin.subjects');
+    Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
+    Route::get('/courses/create', [CourseController::class, 'create'])->name('course.create');
+    Route::post('/courses', [CourseController::class, 'store'])->name('course.store');
+
+    Route::get('/subjects', [SubjectController::class, 'index'])->name('subject.index');
+    Route::get('/subjects/create', [SubjectController::class, 'create'])->name('subject.create');
+    Route::post('/subjects', [SubjectController::class, 'store'])->name('subject.store');
 
 });
 // Student
