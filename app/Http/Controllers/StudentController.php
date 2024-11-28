@@ -57,7 +57,7 @@ class StudentController extends Controller
             "block" => ['required', 'max:244',],
         ]);
         $userCredentials = $request->validate([
-            "email" => ['required', 'max:244', 'email', 'lowercase'],
+            "email" => ['required', 'unique:users,email', 'max:244', 'email', 'lowercase'],
             "password" => ['required', 'max:244',]
         ]);
         $userCredentials['access_type'] = 'student';

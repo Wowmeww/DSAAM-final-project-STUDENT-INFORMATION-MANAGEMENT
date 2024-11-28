@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,8 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('courses', function (Blueprint $table) {
-            $table->string('name');
-            $table->primary('name');
+            $table->string('name')->primary();
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@
     import { ref, watch } from 'vue';
     import { router } from '@inertiajs/vue3';
     import PrimaryTable from '@/Components/PrimaryTable.vue';
-import PageHeading from '@/Components/PageHeading.vue';
+    import PageHeading from '@/Components/PageHeading.vue';
 
 
     const props = defineProps({
@@ -28,14 +28,14 @@ import PageHeading from '@/Components/PageHeading.vue';
 
 <template>
     <section class="container">
-        <PageHeading >Students</PageHeading>
+        <PageHeading>Students</PageHeading>
         <div class="sm:flex sm:items-center sm:justify-between">
             <div class="block md:flex md:items-center md:gap-6">
                 <TextInput type="search" v-model="search" class="min-w-96" placeholder="Search" />
             </div>
 
             <div>
-                <Link :href="route('teacher.create')"
+                <Link :href="route('student.create')"
                     class="flex items-center justify-center w-full px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
                 Add Student
                 </Link>
@@ -89,4 +89,3 @@ import PageHeading from '@/Components/PageHeading.vue';
         <Pagination :paginator="students" />
     </section>
 </template>
-

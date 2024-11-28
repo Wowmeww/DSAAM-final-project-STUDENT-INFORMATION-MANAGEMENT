@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\Course;
 use App\Models\Student;
+use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -39,6 +40,8 @@ class DatabaseSeeder extends Seeder
         Course::create(['name' => 'BSAIS']);
         Course::create(['name' => 'BSCS']);
         Course::create(['name' => 'BSA']);
+
+        Subject::factory(40)->create();
 
         $student = User::factory()->create([
             'email' => 'student@mail.com',

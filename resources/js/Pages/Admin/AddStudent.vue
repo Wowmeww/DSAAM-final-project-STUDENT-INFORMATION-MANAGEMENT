@@ -83,7 +83,7 @@
                         <DangerButton value="Reset" type="reset" />
                     </div>
                     <div class="inline-grid md:w-3/12">
-                        <FormButton value="Register" type="submit" />
+                        <FormButton value="Register" type="submit" :disabled="form.processing" />
                     </div>
                 </div>
             </form>

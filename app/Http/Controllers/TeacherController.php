@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,19 +14,62 @@ class TeacherController extends Controller
     {
         return Inertia::render('Teacher/Dashboard');
     }
-    public function index()
+    public function index(Request $request)
     {
-        $teachers = Teacher::with('user')->latest()->simplePaginate(20);
+        $q = filter_var($request->q, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $teachers = Teacher::with('user');
+
+        if ($q) {
+            $teachers->where('last_name', 'like', "%{$q}%")
+                ->orWhere('first_name', 'like', "%{$q}%");
+        }
+
+        $teachers->simplePaginate();
+
+        // $teachers = Teacher::with('user')->latest()->simplePaginate(20);
         return Inertia::render('Admin/Teachers', [
-            'teachers' => $teachers
+            'teachers' => $teachers->latest()->simplePaginate()->withQueryString(),
+            'query' => $q
         ]);
     }
     public function create()
     {
-
+        $subjects = Subject::all();
+        return Inertia::render('Admin/AddTeacher', [
+            'subjects' => $subjects
+        ]);
     }
-    public function store()
+    public function store(Request $request)
     {
+        $teacherCredentials = $request->validate([
+            "first_name" => ['required', 'max:254', 'string'],
+            "last_name" => ['required', 'max:254', 'string'],
+            "middle_name" => ['required', 'max:254', 'string'],
+            "sex" => ['required', 'max:254', 'string'],
+            "birth_date" => ['required', 'max:254', 'date'],
+        ]);
+        $userCredentials = $request->validate([
+            "email" => ['required', 'unique:users,email', 'lowercase', 'email', 'max:254'],
+            "password" => ['required', 'max:254']
+        ]);
+        $userCredentials['access_type'] = 'teacher';
+
+        $subjects = $request->validate([
+            'subjects' => ['nullable', 'array']
+        ]);
+        $subjects = $subjects['subjects'];
+
+        $user = User::create($userCredentials);
+        $teacher = $user->owner()->create($teacherCredentials);
+
+        foreach ($subjects as $key => $v) {
+            $teacher->addSubject($v);
+        }
+
+
+        return to_route('teacher.index')->with('message', 'New Teacher Registered.');
+
 
     }
     public function enrollStudents()

@@ -1,15 +1,26 @@
 <script setup>
     import PageHeading from '@/Components/PageHeading.vue';
-import Pagination from '@/Components/Pagination.vue';
-import PrimaryTable from '@/Components/PrimaryTable.vue';
+    import Pagination from '@/Components/Pagination.vue';
+    import PrimaryTable from '@/Components/PrimaryTable.vue';
     import TextInput from '@/Components/TextInput.vue';
-    import { ref } from 'vue';
+    import { ref, watch } from 'vue';
+    import { debounce } from 'lodash';
+    import { router } from '@inertiajs/vue3';
 
-    defineProps({
-        teachers: Object
+    const props = defineProps({
+        teachers: Object,
+        query: String
     })
 
-    const search = ref(null);
+    const search = ref(props.query);
+
+    watch(search, debounce((q)=> {
+        router.get(route('teacher.index'), {
+            q: q
+        }, {
+            preserveState: true
+        });
+    }, 800));
 </script>
 
 <template>

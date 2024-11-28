@@ -17,9 +17,16 @@ class Teacher extends Model
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsToMany(Subject::class, foreignPivotKey: 'subject_id', relatedKey: 'name');
     }
-    public function student()
+    public function addSubject($subject_id)
+    {
+        $this->subjects()->attach($subject_id, [
+            'teacher_id' => $this->id,
+            'subject_id' => $subject_id
+        ]);
+    }
+    public function students()
     {
         return $this->belongsToMany(Student::class);
     }

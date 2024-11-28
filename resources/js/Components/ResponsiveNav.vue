@@ -104,7 +104,7 @@
                             </h3>
                         </button>
                         <button type="button" @click="$emit('logout')"
-                            class="btn btn-primary justify-center w-full sm:w-fit">
+                            class="btn btn-primary justify-center w-full sm:w-28">
                             Log Out
                         </button>
                     </div>

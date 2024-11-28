@@ -11,6 +11,6 @@ class Subject extends Model
     use HasFactory;
 
     public function teachers() {
-        return $this->belongsToMany(Teacher::class);
+        return $this->belongsToMany(Teacher::class, foreignPivotKey: 'teacher_id');
     }
 }
