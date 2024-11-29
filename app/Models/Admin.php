@@ -12,4 +12,7 @@ class Admin extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+    public function announcements() {
+        return $this->hasMany(Announcement::class);
+    }
 }

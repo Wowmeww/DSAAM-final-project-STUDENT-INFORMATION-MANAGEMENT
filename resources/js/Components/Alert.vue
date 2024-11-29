@@ -1,17 +1,17 @@
 <script setup>
-    import { ref } from 'vue';
+import { ref } from 'vue';
 
-    const props = defineProps({
-        message: {
-            required: true
-        }
+   const props = defineProps({
+        message: null
     });
-    const isShowing = ref(props.message ? true : false);
+    const emit = defineEmits(['close']);
+    const close = ()=> {
+        emit('close');
+    }
 </script>
 
 <template>
-
-    <div v-if="isShowing" class="w-full text-white bg-blue-500">
+    <div v-if="message" class="w-full text-white bg-blue-500">
         <div class="container flex items-center justify-between px-6 py-4 mx-auto">
             <div class="flex">
                 <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
@@ -23,7 +23,7 @@
                 <p class="mx-3">{{ message }}</p>
             </div>
 
-            <button @click="isShowing = false"
+            <button @click="close"
                 class="p-1 transition-colors duration-300 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none">
                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"

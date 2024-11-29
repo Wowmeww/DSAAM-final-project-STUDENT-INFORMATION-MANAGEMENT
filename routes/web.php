@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
@@ -11,19 +11,14 @@ use App\Models\User;
 
 use Illuminate\Support\Facades\Route;
 
-
-// Route::get('/dashboard', function (Request $request) {
-//     if($request->user_type == 'admin') {
-//         return to_route('admin.dashboard');
-//     } else if($request->user_type == 'teacher') {
-//         return to_route('teacher.dashboard');
-//     }
-//     return to_route('student.dashboard');
-// })->middleware('auth')->name('dashboard');
-
 // ADMIN
 Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcement.create');
+    Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcement.store');
+    Route::get('/announcements/{announcement}/edit', [AnnouncementController::class, 'edit'])->name('announcement.edit');
+    Route::patch('/announcements/{announcement}', [AnnouncementController::class, 'update'])->name('announcement.update');
+    Route::delete('/announcements/{announcement}', [AnnouncementController::class, 'destroy'])->name('announcement.destroy');
 
     Route::get('/students', [StudentController::class, 'index'])->name('student.index');
     Route::get('/students/create', [StudentController::class, 'create'])->name('student.create');

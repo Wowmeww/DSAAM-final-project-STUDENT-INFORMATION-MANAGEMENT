@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Admin;
+use App\Models\Announcement;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\Subject;
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         Admin::create([
             'user_id' => $admin->id
         ]);
+        Announcement::factory(15)->create();
         $bsit = Course::create([
             'name' => 'BSIT'
         ]);

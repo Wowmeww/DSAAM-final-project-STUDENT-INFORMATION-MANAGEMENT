@@ -15,7 +15,8 @@
             </header>
             <!-- Page Content -->
             <main class="flex-1">
-                <Alert :message="$page.props.flash.message" v-if="$page.props.flash.message" />
+                <Alert :message="$page.props.flash.message" @close="$page.props.flash.message = null" />
+                <!-- <Alert :message="$page.props.flash.message" v-if="$page.props.flash.message" /> -->
                 <LogoutModal :isOpen="logoutModalOpen" v-on:cancel="logoutModalOpen = false" />
                 <slot />
             </main>

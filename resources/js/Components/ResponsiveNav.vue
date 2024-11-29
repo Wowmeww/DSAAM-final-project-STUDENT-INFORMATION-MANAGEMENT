@@ -99,8 +99,8 @@
 
                             <h3
                                 class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden leading-tight flex flex-col text-start">
-                                <span>User Full Name</span>
-                                <small>user.email.mail@com</small>
+                                <span>{{ $page.props.auth.userFullName }}</span>
+                                <small>{{ $page.props.auth.user.email }}</small>
                             </h3>
                         </button>
                         <button type="button" @click="$emit('logout')"

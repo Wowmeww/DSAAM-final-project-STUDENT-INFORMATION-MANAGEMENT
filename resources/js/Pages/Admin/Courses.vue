@@ -23,7 +23,7 @@
 </script>
 
 <template>
-    <Head title="Teachers" />
+    <Head title="Courses" />
     <div class="container">
         <PageHeading>Courses</PageHeading>
         <div class="sm:flex sm:items-center sm:justify-between space-y-2">

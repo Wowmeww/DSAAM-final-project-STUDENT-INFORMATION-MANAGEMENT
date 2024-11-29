@@ -24,7 +24,7 @@
 
 <template>
 
-    <Head title="Teachers" />
+    <Head title="Subjects" />
     <div class="container">
         <PageHeading>Courses</PageHeading>
         <div class="sm:flex sm:items-center sm:justify-between space-y-2">

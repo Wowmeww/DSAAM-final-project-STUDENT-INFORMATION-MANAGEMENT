@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use App\Models\Course;
 use App\Models\Student;
 use App\Models\User;
@@ -11,9 +12,19 @@ use Inertia\Inertia;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        // dd(request()->user());
-        return Inertia::render('Admin/Dashboard');
+        $q = $request->q;
+        $announcements = Announcement::latest()->get();
+
+        if ($q) {
+            $announcements = Announcement::where('title', 'like', "%{$q}%")
+                ->orWhere('content', 'like', "%{$q}%")->latest()->get();
+        }
+
+        return Inertia::render('Admin/Dashboard', [
+            'announcements' => $announcements,
+            'query' => $q
+        ]);
     }
 }
