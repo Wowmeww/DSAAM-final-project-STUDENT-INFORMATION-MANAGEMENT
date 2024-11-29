@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('first_name');
             $table->string('last_name');
             $table->string('middle_name')->nullable();
-            $table->foreignUuid('course')->constrained('courses', 'name');
+            $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->integer('year');
             $table->integer('block');
             $table->string('sex');

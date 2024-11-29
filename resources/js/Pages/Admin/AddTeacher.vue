@@ -37,15 +37,14 @@
     const submit = () => {
         form.post(route('teacher.store'));
     }
-
-    const addSubject = (input) => {
-        if (input.checked) {
-            form.subjects.push(input.value);
+    const addSubject = (e) => {
+        console.log(e);
+        if (e.checked) {
+            form.subjects.push(e.value);
         }
         else {
-            form.subjects = form.subjects.filter((s) => s != input.value);
+            form.subjects = form.subjects.filter((sub_id) => sub_id != e.value);
         }
-        console.log(form.subjects);
     }
 </script>
 <template>
@@ -79,8 +78,12 @@
                     <fieldset class="col-span-full">
                         <legend>Handled Subject/s</legend>
                         <div class="grid md:grid-cols-2  lg:grid-cols-3">
-                            <PrimaryCheckbox v-for="subject in subjects" :key="subject.name" :value="subject.name"
-                                @check="addSubject" />
+                            <PrimaryCheckbox v-for="subject in subjects" :key="subject.id" :value="subject.id" :label="subject.name"
+                                @changed="addSubject"  />
+                            <!-- <div v-for="subject in subjects">
+                                <input type="checkbox" :id="subject.name" @change="addSubject" :value="subject.id" />
+                                <label :for="subject.name">{{ subject.name }}</label>
+                            </div> -->
                         </div>
                     </fieldset>
 

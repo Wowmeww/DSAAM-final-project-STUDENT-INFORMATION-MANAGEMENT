@@ -27,6 +27,8 @@ Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
     Route::get('/teachers', [TeacherController::class, 'index'])->name('teacher.index');
     Route::get('/teachers/create', [TeacherController::class, 'create'])->name('teacher.create');
     Route::post('/teachers', [TeacherController::class, 'store'])->name('teacher.store');
+    Route::get('/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teacher.edit');
+    Route::patch('/teachers/{teacher}', [TeacherController::class, 'update'])->name('teacher.update');
 
     Route::get('/courses', [CourseController::class, 'index'])->name('course.index');
     Route::get('/courses/create', [CourseController::class, 'create'])->name('course.create');

@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
         Course::create(['name' => 'BSCS']);
         Course::create(['name' => 'BSA']);
 
-        Subject::factory(40)->create();
+        Subject::factory(6)->create();
 
         $student = User::factory()->create([
             'email' => 'student@mail.com',
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'middle_name' => 'Banares',
             'year' => 3,
             'block' => 2,
-            'course' => $bsit->name
+            'course_id' => $bsit->id
         ]);
 
         $teacher = User::factory()->create([
@@ -68,9 +68,12 @@ class DatabaseSeeder extends Seeder
         Teacher::factory()->create([
             'user_id' => $teacher->id,
             'first_name' => 'Ken',
-            'last_name' => 'Ges',
+            'last_name' => 'Gis',
             'middle_name' => 'K',
         ]);
+
+        $teacher->owner->addSubject(Subject::all()[0]->id);
+        $teacher->owner->addSubject(Subject::all()[1]->id);
 
         for ($i = 1; $i <= 30; $i++) {
             Teacher::factory()->create()->user->update([
@@ -82,28 +85,28 @@ class DatabaseSeeder extends Seeder
                 Student::factory()->create([
                     'year' => $i,
                     'block' => 1,
-                    'course' => Course::all()[$i - 1]->name
+                    'course_id' => Course::all()[$i - 1]->id
                 ])->user->update([
                         'access_type' => 'student'
                     ]);
                 Student::factory()->create([
                     'year' => $i,
                     'block' => 2,
-                    'course' => Course::all()[$i - 1]->name
+                    'course_id' => Course::all()[$i - 1]->id
                 ])->user->update([
                         'access_type' => 'student'
                     ]);
                 Student::factory()->create([
                     'year' => $i,
                     'block' => 3,
-                    'course' => Course::all()[$i - 1]->name
+                    'course_id' => Course::all()[$i - 1]->id
                 ])->user->update([
                         'access_type' => 'student'
                     ]);
                 Student::factory()->create([
                     'year' => $i,
                     'block' => 4,
-                    'course' => Course::all()[$i]->name
+                    'course_id' => Course::all()[$i]->id
                 ])->user->update([
                         'access_type' => 'student'
                     ]);

@@ -7,14 +7,22 @@
     import { debounce } from 'lodash';
     import { router } from '@inertiajs/vue3';
 
+
     const props = defineProps({
         teachers: Object,
         query: String
     })
 
     const search = ref(props.query);
+    const subjects = (subjects) => {
+        const subs = [];
+        subjects.forEach(subject => {
+            subs.push(subject.name);
+        });
+        return subs.join(', ');
+    }
 
-    watch(search, debounce((q)=> {
+    watch(search, debounce((q) => {
         router.get(route('teacher.index'), {
             q: q
         }, {
@@ -53,6 +61,9 @@
                     <th>
                         Email
                     </th>
+                    <th colspan="2">
+                        Subjects
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -65,6 +76,12 @@
                     </td>
                     <td>
                         {{ teacher.user.email }}
+                    </td>
+                    <td>
+                        {{ subjects(teacher.subjects) }}
+                    </td>
+                    <td>
+                        <Link :href="route('teacher.edit', {teacher})" v-html="'Edit Subjects'" class="rounded-md font-semibold border-gray-50/15 bg-yellow-400/10 hover:bg-white/10 border p-1" />
                     </td>
                 </tr>
             </tbody>

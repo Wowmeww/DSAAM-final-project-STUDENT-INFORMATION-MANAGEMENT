@@ -31,7 +31,7 @@ class StudentFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'middle_name' => fake()->lastName(),
-            'course' => Course::all()[rand(0, count(Course::all())-1)]->name,
+            'course_id' => Course::all()[rand(0, count(Course::all())-1)]->id,
             'block' => rand(1, 5),
             'year' => rand(1, 4),
             'sex' => fake()->randomElement(['male', 'female']),

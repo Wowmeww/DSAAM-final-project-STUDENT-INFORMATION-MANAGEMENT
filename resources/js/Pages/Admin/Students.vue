@@ -10,6 +10,7 @@
 
     const props = defineProps({
         students: Object,
+        courses: Object,
         query: String
     });
 
@@ -24,6 +25,8 @@
             });
         }, 800)
     );
+
+    const course = (course_id) => props.courses.find((course) => course.id == course_id).name;
 </script>
 
 <template>
@@ -77,7 +80,7 @@
                         {{ `${student.last_name} ${student.first_name} ${student.middle_name[0]}.` }}
                     </td>
                     <td>
-                        {{ student.course }}
+                        {{ course(student.course_id) }}
                     </td>
                     <td>
                         {{ student.year }}

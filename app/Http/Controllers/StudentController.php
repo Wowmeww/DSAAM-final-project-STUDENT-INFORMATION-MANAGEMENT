@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -24,12 +25,14 @@ class StudentController extends Controller
                 ->orWhere('last_name', 'like', "%{$q}%")
                 ->orWhere('first_name', 'like', "%{$q}%")
                 ->orWhere('year', 'like', "%{$q}%")
-                ->orWhere('course', 'like', "%{$q}%")
-                ->orWhere('id', 'like', "%{$q}%");
+                ->orWhere('id', 'like', "%{$q}%")
+                ->orWhere('course_id', 'like', "%{$q}%");
         }
+
 
         return Inertia::render('Admin/Students', [
             'students' => $students->latest()->simplePaginate(20)->withQueryString(),
+            'courses' => Course::all(),
             'query' => $q
         ]);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,13 +13,14 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('subjects', function (Blueprint $table) {
-            $table->string('name')->primary();
+            $table->id();
+            $table->string('name')->unique();
             $table->timestamps();
         });
         Schema::create('subject_teacher', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete();
-            $table->foreignUuid('subject_id')->constrained('subjects', column: 'name')->cascadeOnDelete();
+            $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -17,14 +17,25 @@ class Teacher extends Model
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, foreignPivotKey: 'subject_id', relatedKey: 'name');
+        return $this->belongsToMany(
+            Subject::class,
+        );
     }
-    public function addSubject($subject_id)
+    public function gitEmailAttribute()
     {
-        $this->subjects()->attach($subject_id, [
-            'teacher_id' => $this->id,
-            'subject_id' => $subject_id
-        ]);
+        return $this->user->email;
+    }
+    public function gitNameAttribute()
+    {
+        return "{$this->last_name} {$this->first_name} {$this->middle_name[0]}.";
+    }
+    public function addSubject($id)
+    {
+        $this->subjects()->attach($id);
+    }
+    public function removeAllSubjects()
+    {
+        $this->subjects()->detach($this->subjects);
     }
     public function students()
     {

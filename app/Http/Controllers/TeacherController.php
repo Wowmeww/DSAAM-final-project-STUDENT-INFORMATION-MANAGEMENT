@@ -32,7 +32,7 @@ class TeacherController extends Controller
 
         foreach ($teachers as $i => $teacher) {
             // dump( $teacher->subjects);
-            $teacher->subs = $teacher->teachers;
+            $teacher->subjects = Teacher::find($teacher->id)->subjects;
         }
 
         // $teachers = Teacher::with('user')->latest()->simplePaginate(20);
@@ -76,6 +76,26 @@ class TeacherController extends Controller
         }
 
         return to_route('teacher.index')->with('message', 'New Teacher Registered.');
+    }
+    public function edit(Teacher $teacher)
+    {
+        return Inertia::render('Admin/EditTeacherSubjects', [
+            'teacher' => $teacher,
+            'teacherSubjects' => $teacher->subjects,
+            'subjects' => Subject::all()
+        ]);
+    }
+    public function update(Teacher $teacher, Request $request)
+    {
+        $subjects = $request->validate([
+            'subjects' => ['nullable', 'array']
+        ]);
+        $teacher->removeAllSubjects();
+        foreach ($subjects['subjects'] as $id) {
+            $teacher->addSubject($id);
+        }
+
+        return to_route('teacher.index')->with('message', "Teacher {$teacher->name} handled subjects updated!");
     }
     public function enrollStudents()
     {
