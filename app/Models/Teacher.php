@@ -21,11 +21,11 @@ class Teacher extends Model
             Subject::class,
         );
     }
-    public function gitEmailAttribute()
+    public function getEmailAttribute()
     {
         return $this->user->email;
     }
-    public function gitNameAttribute()
+    public function getNameAttribute()
     {
         return "{$this->last_name} {$this->first_name} {$this->middle_name[0]}.";
     }

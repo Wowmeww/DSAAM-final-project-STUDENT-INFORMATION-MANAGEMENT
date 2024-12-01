@@ -23,12 +23,10 @@ class TeacherController extends Controller
         $teachers = Teacher::with('user');
 
         if ($q) {
-            $teachers->where('last_name', 'like', "%{$q}%")
-                ->orWhere('first_name', 'like', "%{$q}%")
-                ->orWhere('id', 'like', "%{$q}%");
+            $teachers->whereAny(['last_name', 'first_name'], 'like', "%{$q}%");
         }
 
-        $teachers = $teachers->latest()->simplePaginate(20);
+        $teachers = $teachers->latest('updated_at')->simplePaginate(20);
 
         foreach ($teachers as $i => $teacher) {
             // dump( $teacher->subjects);
@@ -82,6 +80,7 @@ class TeacherController extends Controller
         return Inertia::render('Admin/EditTeacherSubjects', [
             'teacher' => $teacher,
             'teacherSubjects' => $teacher->subjects,
+            'teacherName' => $teacher->name,
             'subjects' => Subject::all()
         ]);
     }

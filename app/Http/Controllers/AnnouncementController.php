@@ -67,9 +67,10 @@ class AnnouncementController extends Controller
             'title' => ['required', 'max:254', 'string'],
             'content' => ['required', 'string']
         ]);
+        $oldTitle = $announcement->title;
         $announcement->update($updatedAnnouncement);
 
-        return to_route('admin.dashboard')->with('message', 'Announcement wit the title of "'. $announcement->title . '" updated.');
+        return to_route('admin.dashboard')->with('message', "Announcement with the title of \"{$oldTitle}\" updated.");
     }
 
     /**

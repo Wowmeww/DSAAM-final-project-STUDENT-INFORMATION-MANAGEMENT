@@ -77,7 +77,7 @@
                     <td>
                         {{ teacher.user.email }}
                     </td>
-                    <td>
+                    <td class="text-wrap">
                         {{ subjects(teacher.subjects) }}
                     </td>
                     <td>

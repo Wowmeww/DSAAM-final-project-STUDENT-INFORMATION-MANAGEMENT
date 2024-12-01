@@ -11,13 +11,19 @@ class Student extends Model
     /** @use HasFactory<\Database\Factories\StudentFactory> */
     use HasFactory;
 
+    protected $appends = ['course', 'full_name'];
+
     public function grades() {
         return $this->belongsToMany(Grade::class);
     }
 
+
     public function  getCourseAttribute() {
         $course = Course::find($this->course_id);
         return $course->name;
+    }
+    public function  getFullNameAttribute() {
+        return "{$this->last_name} {$this->first_name} {$this->middle_name[0]}.";
     }
     public function  getEmailAttribute() {
         return $this->user->email;

@@ -3,13 +3,16 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
-use App\Models\Course;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Route;
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::patch('/profile/{user}', [ProfileController::class, 'update'])->name('profile.patch');
 
 // ADMIN
 Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {

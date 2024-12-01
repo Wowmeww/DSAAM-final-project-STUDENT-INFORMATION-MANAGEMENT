@@ -23,7 +23,7 @@
 
 <template>
 
-    <Head title="Register - Student" />
+    <Head title="Add Subject" />
     <div class="container">
         <PageHeading>Add a Subject</PageHeading>
         <div class="my-6">

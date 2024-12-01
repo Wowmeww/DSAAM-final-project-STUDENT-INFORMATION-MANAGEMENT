@@ -19,13 +19,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $table->id();
-        // $table->string('email')->unique();
-        // $table->string('password');
-        // $table->string('access_type');
-        // $table->timestamp('email_verified_at')->nullable();
-        // $table->rememberToken();
-        // $table->timestamps();
         $admin = User::factory()->create([
             'email' => 'admin@mail.com',
             'password' => '123',
@@ -72,11 +65,14 @@ class DatabaseSeeder extends Seeder
             'middle_name' => 'K',
         ]);
 
-        $teacher->owner->addSubject(Subject::all()[0]->id);
-        $teacher->owner->addSubject(Subject::all()[1]->id);
+        $subjects = Subject::all();
+        $teacher->owner->addSubject($subjects[0]->id);
+        $teacher->owner->addSubject($subjects[1]->id);
 
         for ($i = 1; $i <= 30; $i++) {
-            Teacher::factory()->create()->user->update([
+            $teacher = Teacher::factory()->create();
+            $teacher->addSubject($subjects[\rand(0, count($subjects)-1)]);
+            $teacher->user->update([
                 'access_type' => 'teacher'
             ]);
         }

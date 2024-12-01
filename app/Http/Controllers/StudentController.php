@@ -18,20 +18,21 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $q = htmlspecialchars($request->q);
-        $students = Student::with('user');
-
+        $students = Student::with('user')->latest();
         if ($q) {
-            $students = Student::with('user')->where('first_name', 'like', "%{$request->q}%")
-                ->orWhere('last_name', 'like', "%{$q}%")
-                ->orWhere('first_name', 'like', "%{$q}%")
-                ->orWhere('year', 'like', "%{$q}%")
-                ->orWhere('id', 'like', "%{$q}%")
-                ->orWhere('course_id', 'like', "%{$q}%");
+            $courses = Course::whereLike('name', "%{$q}%")->first();
+            $courses = $courses? $courses->id: null;
+
+            $students = $students->whereAny([
+                'last_name',
+                'first_name',
+                'middle_name'
+            ], 'like', "%{$q}%")
+            ->orWhereLike('course_id', $courses);
         }
-
-
+        $students = $students->simplePaginate(20);
         return Inertia::render('Admin/Students', [
-            'students' => $students->latest()->simplePaginate(20)->withQueryString(),
+            'students' => $students->withQueryString(),
             'courses' => Course::all(),
             'query' => $q
         ]);

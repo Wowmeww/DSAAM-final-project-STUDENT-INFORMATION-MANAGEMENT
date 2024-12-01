@@ -26,7 +26,6 @@
         }, 800)
     );
 
-    const course = (course_id) => props.courses.find((course) => course.id == course_id).name;
 </script>
 
 <template>
@@ -77,10 +76,10 @@
                         {{ student.id }}
                     </td>
                     <td>
-                        {{ `${student.last_name} ${student.first_name} ${student.middle_name[0]}.` }}
+                        {{ student.full_name }}
                     </td>
                     <td>
-                        {{ course(student.course_id) }}
+                        {{ student.course }}
                     </td>
                     <td>
                         {{ student.year }}
