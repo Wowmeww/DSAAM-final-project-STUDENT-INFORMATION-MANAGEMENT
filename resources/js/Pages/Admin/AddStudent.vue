@@ -17,7 +17,7 @@
         middle_name: null,
         sex: null,
         birth_date: null,
-        course: null,
+        course_id: null,
         year: null,
         block: null,
         email: null,
@@ -34,13 +34,12 @@
 
         let email = `${f}${m}${l}${form.password}@edu.ph`.toLocaleLowerCase()
 
-        form.email = email.replace(' ', '');
+        form.email = email.replaceAll(' ', '');
     });
 
 </script>
 
 <template>
-
     <Head title="Register - Student" />
     <div class="container">
         <PageHeading>Register a Student</PageHeading>
@@ -61,9 +60,9 @@
                     <FormInput :error="form.errors.birth_date" name="Birth Date" type="date"
                         v-model="form.birth_date" />
 
-                    <InputSelect :error="form.errors.course" name="Course" v-model="form.course">
+                    <InputSelect :error="form.errors.course_id" name="Course" v-model="form.course_id">
                         <option :value="null">Select</option>
-                        <option v-for="course in courses" :key="course.name">{{ course.name }}</option>
+                        <option v-for="course in courses" :value="course.id" :key="course.id">{{ course.name }}</option>
                     </InputSelect>
 
                     <FormInput :error="form.errors.year" name="Year" v-model="form.year" />

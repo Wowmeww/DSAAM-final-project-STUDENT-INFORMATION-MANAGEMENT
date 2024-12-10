@@ -6,6 +6,7 @@ use App\Models\Admin;
 use App\Models\Announcement;
 use App\Models\Course;
 use App\Models\Student;
+use App\Models\StudentClass;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
@@ -28,30 +29,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $admin->id
         ]);
         Announcement::factory(15)->create();
-        $bsit = Course::create([
-            'name' => 'BSIT'
-        ]);
-        Course::create(['name' => 'BSIS']);
-        Course::create(['name' => 'BSAIS']);
-        Course::create(['name' => 'BSCS']);
-        Course::create(['name' => 'BSA']);
 
         Subject::factory(6)->create();
-
-        $student = User::factory()->create([
-            'email' => 'student@mail.com',
-            'password' => '123',
-            'access_type' => 'student'
-        ]);
-        Student::factory()->create([
-            'user_id' => $student->id,
-            'first_name' => 'Nico Bernard',
-            'last_name' => 'Firmanes',
-            'middle_name' => 'Banares',
-            'year' => 3,
-            'block' => 2,
-            'course_id' => $bsit->id
-        ]);
 
         $teacher = User::factory()->create([
             'email' => 'teacher@mail.com',
@@ -71,41 +50,73 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 1; $i <= 30; $i++) {
             $teacher = Teacher::factory()->create();
-            $teacher->addSubject($subjects[\rand(0, count($subjects)-1)]);
+            $teacher->addSubject($subjects[\rand(0, count($subjects) - 1)]);
             $teacher->user->update([
                 'access_type' => 'teacher'
             ]);
         }
-        for ($i = 1; $i <= 4; $i++) {
-            for ($j = 1; $j <= 30; $j++) {
-                Student::factory()->create([
-                    'year' => $i,
-                    'block' => 1,
-                    'course_id' => Course::all()[$i - 1]->id
-                ])->user->update([
-                        'access_type' => 'student'
+
+
+        $it = Course::create([
+            'name' => 'BSIT'
+        ]);
+
+        $student = User::factory()->create([
+            'email' => 'student@mail.com',
+            'password' => '123',
+            'access_type' => 'student'
+        ]);
+        $class1 = StudentClass::factory()->create([
+            'name' => 'BSIT 3-2'
+        ]);
+        Student::factory()->create([
+            'user_id' => $student->id,
+            'first_name' => 'Nico Bernard',
+            'last_name' => 'Firmanes',
+            'middle_name' => 'Banares',
+            'year' => 3,
+            'block' => 2,
+            'course_id' => $it->id,
+            'class_id' => $class1->id,
+        ]);
+        $is = Course::create(['name' => 'BSIS']);
+        $ais = Course::create(['name' => 'BSAIS']);
+        $cs = Course::create(['name' => 'BSCS']);
+        $a = Course::create(['name' => 'BSA']);
+        // course_id class_id
+        for ($i = 0; $i < 30; $i++) {
+            for ($year = 1; $year <= 4; $year++) {
+                for ($block = 1; $block <= 4; $block++) {
+                    $itClass = StudentClass::addClass("{$it->name} {$year}-{$block}");
+                    Student::factory()->create([
+                        'course_id' => $it->id,
+                        'class_id' => $itClass->id
                     ]);
-                Student::factory()->create([
-                    'year' => $i,
-                    'block' => 2,
-                    'course_id' => Course::all()[$i - 1]->id
-                ])->user->update([
-                        'access_type' => 'student'
+
+                    $isClass = StudentClass::addClass("{$is->name} {$year}-{$block}");
+                    Student::factory()->create([
+                        'course_id' => $is->id,
+                        'class_id' => $isClass->id
                     ]);
-                Student::factory()->create([
-                    'year' => $i,
-                    'block' => 3,
-                    'course_id' => Course::all()[$i - 1]->id
-                ])->user->update([
-                        'access_type' => 'student'
+
+                    $aisClass = StudentClass::addClass("{$ais->name} {$year}-{$block}");
+                    Student::factory()->create([
+                        'course_id' => $ais->id,
+                        'class_id' => $aisClass->id
                     ]);
-                Student::factory()->create([
-                    'year' => $i,
-                    'block' => 4,
-                    'course_id' => Course::all()[$i]->id
-                ])->user->update([
-                        'access_type' => 'student'
+
+                    $csClass = StudentClass::addClass("{$cs->name} {$year}-{$block}");
+                    Student::factory()->create([
+                        'course_id' => $cs->id,
+                        'class_id' => $csClass->id
                     ]);
+
+                    $aClass = StudentClass::addClass("{$a->name} {$year}-{$block}");
+                    Student::factory()->create([
+                        'course_id' => $cs->id,
+                        'class_id' => $aClass->id
+                    ]);
+                }
             }
         }
 

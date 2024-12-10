@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
+
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,7 +28,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $credentials = $request->validate([
             'email' => ['required', 'email', 'string'],
             'password' => ['required', 'string'],
@@ -41,16 +38,7 @@ class AuthenticatedSessionController extends Controller
             $request->session()->regenerate();
             $user = $request->user();
 
-            if ($user->access_type == 'admin') {
-                return to_route('admin.dashboard')->with('message', 'Welcome back Admin');
-            } elseif ($user->access_type == 'teacher') {
-                return to_route('teacher.dashboard')
-                    ->with('message',
-                    "Welcome back {$user->owner->first_name} {$user->owner->middle_name[0]}. {$user->owner->last_name}"
-                );
-            }
-
-            return to_route('student.dashboard')->with('message', "Welcome back {$user->owner->first_name} {$user->owner->middle_name[0]}.  {$user->owner->last_name}");
+            return to_route('user.dashboard')->with('message', "Welcome back {$user->owner->full_name}.");
         }
 
         throw_if(User::where('email', 'is', $credentials['email'])->first(), ValidationException::withMessages(['password' => 'Wrong password!']));

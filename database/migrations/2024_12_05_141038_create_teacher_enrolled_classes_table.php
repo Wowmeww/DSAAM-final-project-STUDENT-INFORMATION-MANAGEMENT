@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Student;
+use App\Models\StudentClass;
 use App\Models\Subject;
 use App\Models\Teacher;
 use Illuminate\Database\Migrations\Migration;
@@ -14,12 +14,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grades', function (Blueprint $table) {
+        Schema::create('teacher_enrolled_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Student::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete();
-            $table->integer('grade')->nullable();
             $table->foreignIdFor(Teacher::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Subject::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(StudentClass::class, 'class_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('grades');
+        Schema::dropIfExists('teacher_enrolled_classes');
     }
 };

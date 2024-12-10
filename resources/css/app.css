@@ -25,4 +25,11 @@
     .large-submit-button {
         @apply w-full rounded-lg bg-blue-500 mt-4 p-4 text-white text-lg font-semibold disabled:opacity-65;
     }
+    .badge {
+        @apply py-1 px-3 rounded-full hover:bg-opacity-60 ;
+    }
+    .btn-sm {
+        @apply py-1 px-3 rounded-md hover:bg-opacity-60 font-bold ;
+    }
+
 }

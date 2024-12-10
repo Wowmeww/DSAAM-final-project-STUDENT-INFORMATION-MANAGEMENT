@@ -34,6 +34,7 @@ class CourseController extends Controller
         $course = $request->validate([
             'name' => ['required', 'unique:courses,name', 'max:254']
         ]);
+        $course['name'] = strtoupper($course['name']);
 
         Course::create($course);
 

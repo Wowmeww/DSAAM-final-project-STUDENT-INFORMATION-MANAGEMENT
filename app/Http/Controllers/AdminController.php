@@ -14,17 +14,6 @@ class AdminController extends Controller
 {
     public function dashboard(Request $request)
     {
-        $q = $request->q;
-        $announcements = Announcement::latest()->get();
 
-        if ($q) {
-            $announcements = Announcement::where('title', 'like', "%{$q}%")
-                ->orWhere('content', 'like', "%{$q}%")->latest()->get();
-        }
-
-        return Inertia::render('Admin/Dashboard', [
-            'announcements' => $announcements,
-            'query' => $q
-        ]);
     }
 }

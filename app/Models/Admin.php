@@ -9,6 +9,11 @@ class Admin extends Model
 {
     /** @use HasFactory<\Database\Factories\AdminFactory> */
     use HasFactory;
+
+    protected $appends = ['full_name'];
+    public function getFullNameAttribute() {
+        return 'Administrator';
+    }
     public function user() {
         return $this->belongsTo(User::class);
     }
