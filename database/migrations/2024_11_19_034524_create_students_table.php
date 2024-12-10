@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Course;
+use App\Models\StudentClass;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,6 +22,7 @@ return new class extends Migration {
             $table->foreignIdFor(Course::class)->constrained()->cascadeOnDelete();
             $table->integer('year');
             $table->integer('block');
+            $table->foreignIdFor(StudentClass::class, 'class_id')->constrained()->cascadeOnDelete();
             $table->string('sex');
             $table->date('birth_date');
             $table->timestamps();

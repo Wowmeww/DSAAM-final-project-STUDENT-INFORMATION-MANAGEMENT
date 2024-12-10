@@ -10,12 +10,20 @@ class Subject extends Model
     /** @use HasFactory<\Database\Factories\SubjectFactory> */
     use HasFactory;
 
-    public function teachers() {
+    public function teachers()
+    {
         return $this->belongsToMany(
             Teacher::class
         );
     }
-    public function students() {
+    public function students()
+    {
         return $this->belongsToMany(Student::class);
     }
+    public function enrolledClasses()
+    {
+        return $this->belongsTo(TeacherEnrolledClass::class);
+    }
+
+
 }

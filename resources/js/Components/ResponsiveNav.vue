@@ -8,6 +8,11 @@
     const usersAccess = user.access_type;
 
     defineEmits(['logout']);
+
+    const access = usePage().props.auth.user.access_type;
+    const admin = access === 'admin';
+    const student = access === 'student';
+    const teacher = access === 'teacher';
 </script>
 
 
@@ -43,56 +48,48 @@
                     class=" responsiveNavLinkContainer">
 
                     <!-- ADMIN -->
-                    <div v-if="usersAccess == 'admin'" class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
-                        <NavLink :href="route('admin.dashboard')" label="Dashboard"
-                            :active="$page.component == 'Admin/Dashboard'" />
-                        <NavLink :href="route('student.index')" label="Students"
+                    <div class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
+                        <NavLink :href="route('user.dashboard')" label="Dashboard"
+                            :active="$page.component == 'Dashboard'" />
+
+                        <NavLink v-if="admin" :href="route('student.index')" label="Students"
                             :active="$page.component == 'Admin/Students'" />
-                        <NavLink :href="route('teacher.index')" label="Teachers"
+                        <NavLink v-if="admin" :href="route('teacher.index')" label="Teachers"
                             :active="$page.component == 'Admin/Teachers'" />
-                        <NavLink :href="route('course.index')" label="Courses"
+                        <NavLink v-if="admin" :href="route('course.index')" label="Courses"
                             :active="$page.component == 'Admin/Courses'" />
-                        <NavLink :href="route('subject.index')" label="Subjects"
+                        <NavLink v-if="admin" :href="route('subject.index')" label="Subjects"
                             :active="$page.component == 'Admin/Subjects'" />
-                    </div>
 
-                    <div v-if="usersAccess == 'teacher'"
-                        class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
-                        <NavLink :href="route('teacher.dashboard')" label="Dashboard"
-                            :active="$page.component == 'Teacher/Dashboard'" />
-                        <NavLink :href="route('teacher.handled-classes')" label="Handled Classes"
+                        <NavLink v-if="teacher" :href="route('teacher-enrolled-class.edit')" label="Handled Classes"
                             :active="$page.component == 'Teacher/HandledClasses'" />
-                        <NavLink :href="route('teacher.submit-grades')" label="Submit Grades"
+                        <NavLink v-if="teacher" :href="route('grade.edit')" label="Submit Grades"
                             :active="$page.component == 'Teacher/SubmitGrades'" />
-                        <NavLink :href="route('teacher.enroll-students')" label="Enroll Students"
+                        <NavLink v-if="teacher" :href="route('teacher-enrolled-class.create')" label="Enroll Students"
                             :active="$page.component == 'Teacher/EnrollStudents'" />
-                    </div>
 
-                    <div v-if="usersAccess == 'student'"
-                        class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
-                        <NavLink :href="route('student.dashboard')" label="Dashboard"
-                            :active="$page.component == 'Student/Dashboard'" />
-                        <NavLink :href="route('student.grades')" label="Grades"
+                        <NavLink v-if="student" :href="route('student.grades')" label="Grades"
                             :active="$page.component == 'Student/Grades'" />
                     </div>
 
                     <div
                         class="flex sm:items-center mt-4 lg:mt-0 sm:justify-between gap-5 sm:gap-10 sm:flex-row flex-col items-start">
 
-                        <Link :href="route('profile')" type="button" class="flex items-center focus:outline-none w-full lg:w-fit"
+                        <Link :href="route('profile')" type="button"
+                            class="flex items-center focus:outline-none w-full lg:w-fit"
                             aria-label="toggle profile dropdown">
-                            <div
-                                class="w-9 h-9 overflow-hidden border-2 border-gray-400 rounded-full grid place-items-center">
-                                <!-- <img src="#"
+                        <div
+                            class="w-9 h-9 overflow-hidden border-2 border-gray-400 rounded-full grid place-items-center">
+                            <!-- <img src="#"
                                     class="object-cover w-full h-full" alt="avatar"> -->
-                                <i class="bi-person-fill text-2xl"></i>
-                            </div>
+                            <i class="bi-person-fill text-2xl"></i>
+                        </div>
 
-                            <h3
-                                class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden leading-tight flex flex-col text-start">
-                                <span>{{ $page.props.auth.userFullName }}</span>
-                                <small>{{ $page.props.auth.user.email }}</small>
-                            </h3>
+                        <h3
+                            class="mx-2 text-gray-700 dark:text-gray-200 lg:hidden leading-tight flex flex-col text-start">
+                            <span>{{ $page.props.auth.userFullName }}</span>
+                            <small>{{ $page.props.auth.user.email }}</small>
+                        </h3>
                         </Link>
                         <button type="button" @click="$emit('logout')"
                             class="btn btn-primary justify-center w-full sm:w-28">

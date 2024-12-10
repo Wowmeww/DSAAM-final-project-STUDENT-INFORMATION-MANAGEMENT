@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
@@ -14,8 +11,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = request()->user();
         $accountOwner = $user->owner;
+
         return Inertia::render('Profile', [
             'user' => $user,
             'account_owner' => $accountOwner
@@ -23,24 +21,18 @@ class ProfileController extends Controller
     }
 
 
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        $fields = null;
-        switch ($user->access_type) {
-            case 'admin':
+        $fields = $request->validate([
+            "last_name" => ['required', 'max:254'],
+            "first_name" => ['required', 'max:254'],
+            "middle_name" => ['nullable', 'max:254'],
+            "sex" => ['required', 'max:254'],
+            "birth_date" => ['required', 'max:254', 'date'],
+        ]);
 
-                break;
-            default:
-                $fields = $request->validate([
-                    'last_name' => ['required', 'max:254', 'string'],
-                    'first_name' => ['required', 'max:254', 'string'],
-                    'middle_name' => ['nullable', 'max:254'],
-                    'sex' => ['required'],
-                    'birth_date' => ['required', 'date'],
-                ]);
-        }
+        $request->user()->owner->update($fields);
 
-        $user->owner()->update($fields);
         return back()->with('message', 'Profile Updated');
     }
 

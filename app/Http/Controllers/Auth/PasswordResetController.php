@@ -71,7 +71,7 @@ class PasswordResetController extends Controller
     {
         $password = $request->validate([
             'old_password' => 'required',
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'password' => ['confirmed', 'required', Password::defaults()],
         ]);
 
         if (

@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\StudentClass;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
+use FilterIterator;
+use GuzzleHttp\Promise\Each;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class TeacherController extends Controller
 {
-    public function dashboard()
-    {
-        return Inertia::render('Teacher/Dashboard');
-    }
     public function index(Request $request)
     {
         $q = filter_var($request->q, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -95,17 +93,5 @@ class TeacherController extends Controller
         }
 
         return to_route('teacher.index')->with('message', "Teacher {$teacher->name} handled subjects updated!");
-    }
-    public function enrollStudents()
-    {
-        return Inertia::render('Teacher/EnrollStudents');
-    }
-    public function handledClasses()
-    {
-        return Inertia::render('Teacher/HandledClasses');
-    }
-    public function submitGrades()
-    {
-        return Inertia::render('Teacher/submitGrades');
     }
 }

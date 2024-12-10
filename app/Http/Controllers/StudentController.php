@@ -4,42 +4,38 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Student;
+use App\Models\StudentClass;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Inertia\Inertia;
 
+use function Laravel\Prompts\select;
+
 class StudentController extends Controller
 {
-    public function dashboard()
-    {
-        return Inertia::render('Student/Dashboard');
-    }
     public function index(Request $request)
     {
         $q = htmlspecialchars($request->q);
         $students = Student::with('user')->latest();
         if ($q) {
-            $courses = Course::whereLike('name', "%{$q}%")->first();
-            $courses = $courses? $courses->id: null;
-
-            $students = $students->whereAny([
-                'last_name',
-                'first_name',
-                'middle_name'
-            ], 'like', "%{$q}%")
-            ->orWhereLike('course_id', $courses);
+            $student_class = StudentClass::with('students')->whereLike('name', "%{$q}%")->get();
+            $students = Student::with('user')
+                ->whereAny([
+                    'last_name',
+                    'first_name',
+                    'middle_name'
+                ], 'like', "%{$q}%");
+            foreach ($student_class as $value) {
+                $students = $students->orWhereLike('class_id', $value->id);
+            }
         }
-        $students = $students->simplePaginate(20);
+        $students = $students->simplePaginate(20)->withQueryString();
         return Inertia::render('Admin/Students', [
-            'students' => $students->withQueryString(),
+            'students' => $students,
             'courses' => Course::all(),
             'query' => $q
         ]);
-    }
-    public function show()
-    {
-
     }
     public function create()
     {
@@ -50,17 +46,22 @@ class StudentController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
         $studentCredentials = $request->validate([
             "first_name" => ['required', 'max:244',],
             "last_name" => ['required', 'max:244',],
             "middle_name" => ['required', 'max:244',],
             "sex" => ['required', 'max:244',],
             "birth_date" => ['required', 'date', 'max:244',],
-            "course" => ['required', 'max:244',],
+            "course_id" => ['required', 'max:244',],
             "year" => ['required', 'max:244', 'numeric', 'min:1'],
             "block" => ['required', 'max:244',],
         ]);
+        $course_name = Course::find($request->course_id)->name;
+        $class_name = "{$course_name} {$request->year}-{$request->block}";
+        $class_model = StudentClass::addClass($class_name);
+
+        $studentCredentials['class_id'] = $class_model->id;
+
         $userCredentials = $request->validate([
             "email" => ['required', 'unique:users,email', 'max:244', 'email', 'lowercase'],
             "password" => ['required', 'max:244',]
@@ -71,10 +72,5 @@ class StudentController extends Controller
         $user->owner()->create($studentCredentials);
 
         return to_route('student.index')->with('message', 'New Student Registered');
-    }
-
-    public function grades()
-    {
-        return Inertia::render('Student/Grades');
     }
 }

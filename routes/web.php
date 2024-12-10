@@ -3,16 +3,15 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GradeController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherEnrolledClassController;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::patch('/profile/{user}', [ProfileController::class, 'update'])->name('profile.patch');
 
 // ADMIN
 Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
@@ -44,15 +43,16 @@ Route::middleware(['auth', 'can:admin,' . User::class])->group(function () {
 });
 // Student
 Route::middleware(['auth', 'can:student,' . User::class])->group(function () {
-    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
-    Route::get('/student/grades', [StudentController::class, 'grades'])->name('student.grades');
+    Route::get('/student/grades', [GradeController::class, 'index'])->name('student.grades');
 });
 // Teacher
 Route::middleware(['auth', 'can:teacher,' . User::class])->group(function () {
-    Route::get('/teacher/dashboard', [TeacherController::class, 'dashboard'])->name('teacher.dashboard');
-    Route::get('/teacher/enroll-students', [TeacherController::class, 'enrollStudents'])->name('teacher.enroll-students');
-    Route::get('/teacher/handled-classes', [TeacherController::class, 'handledClasses'])->name('teacher.handled-classes');
-    Route::get('/teacher/submit-grades', [TeacherController::class, 'submitGrades'])->name('teacher.submit-grades');
+    Route::get('/handled-classes', [TeacherEnrolledClassController::class, 'edit'])->name('teacher-enrolled-class.edit');
+    Route::get('/enroll-students', [TeacherEnrolledClassController::class, 'create'])->name('teacher-enrolled-class.create');
+    Route::post('/enroll/{studentClass}/{subject}', [TeacherEnrolledClassController::class, 'store'])->name('teacher-enrolled-class.store');
+    Route::delete('/un-enroll/{teacherEnrolledClass}', [TeacherEnrolledClassController::class, 'destroy'])->name('teacher-enrolled-class.destroy');
+    Route::get('/submit-grades', [GradeController::class, 'edit'])->name('grade.edit');
+    Route::patch('/submit-grades', [GradeController::class, 'patch'])->name('grade.patch');
 });
 
 require __DIR__ . '/auth.php';

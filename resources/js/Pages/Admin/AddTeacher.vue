@@ -31,7 +31,7 @@
 
         let email = `${f}${m}${l}${form.password}@edu.ph`.toLocaleLowerCase()
 
-        form.email = form.email = email.replace(' ', '');
+        form.email = form.email = email.replaceAll(' ', '');
     });
 
     const submit = () => {
